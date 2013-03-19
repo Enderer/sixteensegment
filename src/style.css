@@ -1,0 +1,63 @@
+body
+{
+    background-color: black;
+    color: #bbb;
+    font-size: medium;
+    font-family: Calibri, sans-serif;
+}
+
+#wrapper
+{
+    width: 30em;
+    margin: 0 auto;
+}
+
+#container
+{
+    width: 100%;
+}
+
+canvas
+{
+    border: 1px solid #555;
+}
+
+fieldset
+{
+    -webkit-border-radius: .8em 0 1.5em 0;
+    -moz-border-radius: .3em;
+    border-radius: .2em;
+    margin: .6em 0;
+    border:1px solid #eee;
+    color:#aaa;
+}
+
+#controls input
+{
+	display: block;
+	float: left;
+	width: 16em;
+    margin: .1em 0;
+    padding: .1em .1em;
+    color: #444;
+    font-family: Calibri, sans-serif;
+}
+
+#controls input[type=color]
+{
+    padding: 0;
+    width: 6em;
+}
+
+#controls input[type=checkbox]
+{
+	width: 1em;
+}
+
+label
+{
+    float: left;
+	width: 10em;
+	display: block;
+	clear: left;
+}
