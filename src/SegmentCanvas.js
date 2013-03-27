@@ -10,7 +10,7 @@ function SegmentCanvas()
     this.SegmentInterval = .05;         // Spacing between segments (% of Element Width)
     this.BevelWidth = .06;              // Size of corner bevel (% of Element Width)
     this.SideBevelEnabled = false;      // Should the sides be beveled
-    this.FillLight = "#86fd06";         // Color of a lit segment
+    this.FillLight = "#86FD06";         // Color of an on segment
     this.FillDark = "#004400";          // Color of an off segment
     this.StrokeLight = "#007700";       // Color of an on segment outline
     this.StrokeDark = "#440044";        // Color of an off segment outline
@@ -31,7 +31,7 @@ SegmentCanvas.prototype.DispayText = function(value)
     // Recalculate points in case any settings changed
     this.CalcPoints();
     // Set the display patterns and draw the canvas
-    this.ElementArray.SetText(value, this.SegmentMasks);
+    this.ElementArray.SetText(value, this.CharacterMasks);
     this.Draw(this.Canvas, this.ElementArray.Elements);
 }
 

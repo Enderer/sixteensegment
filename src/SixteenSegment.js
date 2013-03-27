@@ -1,6 +1,6 @@
 /*******************************************************************************
  * SixteenSegment
- * Implements Points[] and SegmentMasks[] for a sixteen segment display 
+ * Implements Points[] and CharacterMasks[] for a sixteen segment display 
  ******************************************************************************/
 function SixteenSegment(count, canvas, width, height, x, y)
 {
@@ -17,7 +17,7 @@ function SixteenSegment(count, canvas, width, height, x, y)
 	this.ElementArray.SetCount(count);
 }
 
-// Implements SegmentCanvas using Points[][] and SegmentMasks[] for 16 segments
+// Implements SegmentCanvas using Points[][] and CharacterMasks[] for 16 segments
 SixteenSegment.prototype = new SegmentCanvas();
 
 // Calculates the point positions for each segment & stores them in Points[][].
@@ -159,13 +159,13 @@ SixteenSegment.prototype.CalcPoints = function()
 
 // Sets the mapping of characters to bitmasks. Bitmasks store a display pattern.
 // Segments are turned on by flipping the bit in the segments position.
-SixteenSegment.prototype.SegmentMasks = (function() 
+SixteenSegment.prototype.CharacterMasks = (function() 
 {
 	// Segment Bitmasks for individual segments
-	var a1 = 1 << 0;	var a2 = 1 << 1;	var b = 1 << 2;		var c = 1 << 3;	
-	var d1 = 1 << 4;	var d2 = 1 << 5;	var e = 1 << 6;		var f = 1 << 7;	
-	var g1 = 1 << 8;	var g2 = 1 << 9;	var h = 1 << 10;	var i = 1 << 11;	
-	var j  = 1 << 12;	var k  = 1 << 13;	var l = 1 << 14;	var m = 1 << 15;
+	var a1 = 1 << 0,    a2 = 1 << 1,    b = 1 << 2,    c = 1 << 3,
+	    d1 = 1 << 4,    d2 = 1 << 5,    e = 1 << 6,    f = 1 << 7,
+	    g1 = 1 << 8,    g2 = 1 << 9,    h = 1 << 10,   i = 1 << 11,	
+	    j  = 1 << 12,   k  = 1 << 13,   l = 1 << 14,   m = 1 << 15;
 
 	// Character map associates characters with a bit pattern
 	var charMasks = { };

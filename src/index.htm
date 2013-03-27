@@ -2,14 +2,15 @@
 <html>
 <head>
     <title>Sixteen Segment Display - Demo</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <link rel="stylesheet" type="text/css" href="style.css">
     <script type="text/javascript" src="jquery-1.9.1.min.js"></script>
  	<script type="text/javascript" src="SegmentArray.js"></script>
     <script type="text/javascript" src="SegmentCanvas.js"></script>
     <script type="text/javascript" src="SixteenSegment.js"></script>
-	<script type="text/javascript">
+    <script type="text/javascript" src="SevenSegment.js"></script>
+    <script type="text/javascript">
 		window.onload = function () {
 			// Set the canvas size to fill it's container
 			var canvas = document.getElementById('c');
@@ -33,6 +34,7 @@
 
 		// Update the Segment Display settings
 		function update(segment16){
+
 			// Clear the canvas incase display is resized
 			var canvas = document.getElementById('c');
 			canvas.width = canvas.width;
@@ -53,16 +55,30 @@
 			segment16.StrokeLight = $("#strokeLight").val();
 			segment16.StrokeDark = $("#strokeDark").val();
 			segment16.LineWidth = parseFloat($("#rangeLine").val());
-			segment16.DispayText($("#textInput").val());
+			segment16.DispayText($("#textInput").val().toUpperCase());
+
+			var string = "<pre>" 
+			+ "Width: " + segment16.Width + " \nHeight: " + segment16.Height + " \nX: " + segment16.X + " \nY: " + segment16.Y
+			+ " \nSegmentWidth: " + segment16.SegmentWidth + " \nBevelWidth: " + segment16.BevelWidth
+			+ " \nSegmentInterval: " + segment16.SegmentInterval + " \nSideBevelEnabled: " + segment16.SideBevelEnabled
+			+ " \nPadding: " + segment16.Padding + " \nSpacing: " + segment16.Spacing  + " \nFillLight: " + segment16.FillLight
+			+ " \nFillDark: " + segment16.FillDark  + " \nStrokeLight: " + segment16.StrokeLight  + " \nStrokeDark: " + segment16.StrokeDark
+			+ " \nLineWidth: " + segment16.LineWidth 
+			+ "</pre>";
+
+			$("#code").html(string);
 		}
 	</script>
 </head>
 <body>
 <div id="wrapper">
-    <div id="container"><canvas id="c" /></div>
+	<div id="output">
+		<div id="container"><canvas id="c" /></div>
+	    <div id="code"></div>
+	</div>
+
     <form id="controls">
  	<fieldset>
-    	<legend>Layout</legend>
         <label for="textInput">Text</label>
         <input id="textInput" type="text" value="" /> <br /><br />
     	<label for="rangePadding">Padding</label>
@@ -73,26 +89,24 @@
 	<fieldset>
     	<legend>Shape</legend>
     	<label for="rangeSegmentWidth">Segment Width</label>
-    	<input id="rangeSegmentWidth" type="range" step=".01" max=".3" min="0" value=".16" />		
+    	<input id="rangeSegmentWidth" type="range" step=".01" max=".3" min="0" value=".15" />		
     	<label for="rangeBevel">Bevel</label>
     	<input id="rangeBevel" type="range" step=".01" max="1" min="0" value=".35" />
     	<label for="rangeInterval">Interval</label>
     	<input id="rangeInterval" type="range" step=".005" max=".15" min="0" value=".02" />
-    	<label for="rangeAspect">Aspect Ratio</label>
-    	<input id="rangeAspect" type="range" step=".01" max="3" min=".25" value="1.5" />
     	<label for="checkBevel">Beveled Sides</label>
     	<input id="checkBevel" type="checkbox" value="off" />
 	</fieldset>
 	<fieldset>
     	<legend>Color</legend>	
 		<label for="colorLight">Fill Light</label>
-		<input id="colorLight" type="color" value="#BDE718" />
+		<input id="colorLight" type="color" value="#CDF728" />
 		<label for="colorDark">Fill Dark</label>
-		<input id="colorDark" type="color" value="#142705" />
+		<input id="colorDark" type="color" value="#102200" />
 		<label for="rangeLine">Stroke Width</label>
 		<input id="rangeLine" type="range" step=".1" max="10" min="0" value="0" />
         <label for="strokeLight">Stroke Light</label>
-        <input id="strokeLight" type="color" value="#ff0000" />
+        <input id="strokeLight" type="color" value="#FF0000" />
         <label for="strokeDark">Stroke Dark</label>
         <input id="strokeDark" type="color" value="#550000" />
     </fieldset>

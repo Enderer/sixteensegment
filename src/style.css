@@ -1,15 +1,24 @@
 body
 {
-    background-color: black;
+    background-color: #101010;
     color: #bbb;
     font-size: medium;
     font-family: Calibri, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 #wrapper
 {
-    width: 30em;
-    margin: 0 auto;
+    width: 60em;
+    margin: 2em auto;
+    vertical-align: top;
+}
+
+#output
+{
+    width: 60%;
+    float:left;
 }
 
 #container
@@ -19,45 +28,74 @@ body
 
 canvas
 {
-    border: 1px solid #555;
+    background: black;
 }
 
 fieldset
 {
-    -webkit-border-radius: .8em 0 1.5em 0;
+    -webkit-border-radius: .3em;
     -moz-border-radius: .3em;
-    border-radius: .2em;
-    margin: .6em 0;
-    border:1px solid #eee;
-    color:#aaa;
+    border-radius: .3em;
+    margin: 0 0 .6em 0;
+    padding: .5em 1em;
+    border: 2px solid #000;
+    background: #282828;
+}
+
+fieldset legend
+{
+    color: #777;
+    font-style: italic;
+}
+
+#controls
+{
+    width: 35%;
+    display: inline-block;
+    margin: 0;
+    float: right;
 }
 
 #controls input
 {
 	display: block;
 	float: left;
-	width: 16em;
+	width: 9.5em;
     margin: .1em 0;
-    padding: .1em .1em;
+    padding: .05em .1em;
     color: #444;
     font-family: Calibri, sans-serif;
 }
 
 #controls input[type=color]
 {
-    padding: 0;
-    width: 6em;
+    width: 5em;
 }
 
 #controls input[type=checkbox]
 {
 	width: 1em;
+    margin-top: .4em;
+}
+
+#controls input[type=range]
+{
+
 }
 
 label
 {
     float: left;
-	width: 10em;
+	width: 9em;
 	display: block;
 	clear: left;
+    color: #ddd;
+}
+
+#code pre
+{
+    font-family: Consolas, "Courier New", monospace;
+    font-size: .8em;
+    color: #888;
+    white-space: pre
 }
