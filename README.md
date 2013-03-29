@@ -22,7 +22,7 @@ The canvas property is the only one you are required to set for the display to w
 // This works too
 var segment16 = new SixteenSegment();
 segment16.Canvas = canvas;
-segment16.ElementArray.SetCount(count);
+segment16.SetCount(count);
 segment16.DisplayText("Hello World");
 ```
 
@@ -101,9 +101,9 @@ A: 1111001111000000
 // Bitmask can be represented in several ways
 var charMasks = SixteenSegment.prototype.CharacterMasks;
 charMasks['A'] = a1 | a2 | b | c | g1 | g2 | e | f |;    // Segment masks
-charMasks['A'] = parseInt('1111001111000000', 2);	    // Binary
-charMasks['A'] = 0x3CF;					    // Hex
-charMasks['A'] = 975;					    // Decimal
+charMasks['A'] = parseInt('1111001111000000', 2);        // Binary
+charMasks['A'] = 0x3CF;                                  // Hex
+charMasks['A'] = 975;                                    // Decimal
 ```
 The preferred way to set a display pattern is to  use the segment bitmasks. A variable for each segment holds the bit that turns on its segment. When multiple segment masks are binary or'ed together you get a value the represents the desired pattern.  This makes reading and creating new patterns very intuitive.
 
@@ -111,7 +111,7 @@ The preferred way to set a display pattern is to  use the segment bitmasks. A va
 // Bitmasks for individual segments
 var a1 = 1 << 0,    a2 = 1 << 1,    b = 1 << 2,    c = 1 << 3,
     d1 = 1 << 4,    d2 = 1 << 5,    e = 1 << 6,    f = 1 << 7,
-    g1 = 1 << 8,    g2 = 1 << 9,    h = 1 << 10,   i = 1 << 11,	
+    g1 = 1 << 8,    g2 = 1 << 9,    h = 1 << 10,   i = 1 << 11,
     j  = 1 << 12,   k  = 1 << 13,   l = 1 << 14,   m = 1 << 15;
 
 // Turn on the g1 and g2 segments

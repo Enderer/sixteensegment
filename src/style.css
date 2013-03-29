@@ -58,9 +58,9 @@ fieldset legend
 
 #controls input
 {
-	display: block;
-	float: left;
-	width: 9.5em;
+    display: block;
+    float: left;
+    width: 9.5em;
     margin: .1em 0;
     padding: .05em .1em;
     color: #444;
@@ -74,21 +74,25 @@ fieldset legend
 
 #controls input[type=checkbox]
 {
-	width: 1em;
+    width: 1em;
     margin-top: .4em;
 }
 
-#controls input[type=range]
-{
+#controls input[type=range] { }
 
+#controls input[type=number] 
+{
+    width: 4em;
+    padding: .1em .2em;
+    margin: .3em 0;
 }
 
 label
 {
     float: left;
-	width: 9em;
-	display: block;
-	clear: left;
+    width: 9em;
+    display: block;
+    clear: left;
     color: #ddd;
 }
 

@@ -1,20 +1,21 @@
 /*******************************************************************************
  * SegmentCanvas
+ * @constructor 
  * Base functionality for drawing a segment display to a canvas. Loops through
  * each element (this.ElementArray) and draws each segment shape (this.Points[][])
  * Allows you to configure the design by changing settings(bevel, color, etc...)
  ******************************************************************************/
 function SegmentCanvas()
 {
-    this.SegmentWidth = .16;            // Width of segments (% of Element Width)
-    this.SegmentInterval = .05;         // Spacing between segments (% of Element Width)
-    this.BevelWidth = .06;              // Size of corner bevel (% of Element Width)
+    this.SegmentWidth = 0.16;           // Width of segments (% of Element Width)
+    this.SegmentInterval = 0.05;        // Spacing between segments (% of Element Width)
+    this.BevelWidth = 0.06;             // Size of corner bevel (% of Element Width)
     this.SideBevelEnabled = false;      // Should the sides be beveled
     this.FillLight = "#86FD06";         // Color of an on segment
     this.FillDark = "#004400";          // Color of an off segment
     this.StrokeLight = "#007700";       // Color of an on segment outline
     this.StrokeDark = "#440044";        // Color of an off segment outline
-    this.LineWidth = 0;                 // Width of segment outline
+    this.StrokeWidth = 0;               // Width of segment outline
     this.Padding = 10;                  // Padding around the display
     this.Spacing = 5;                   // Spacing between elements
     this.X = 0;                         // Starting position on the canvas
@@ -33,13 +34,13 @@ SegmentCanvas.prototype.DispayText = function(value)
     // Set the display patterns and draw the canvas
     this.ElementArray.SetText(value, this.CharacterMasks);
     this.Draw(this.Canvas, this.ElementArray.Elements);
-}
+};
 
 // Draws the segment display to a canvas
 SegmentCanvas.prototype.Draw = function(canvas, elements) 
 {
     // Get the context and clear the area
-    var context = c.getContext('2d');
+    var context = canvas.getContext('2d');
     context.clearRect(this.X, this.Y, this.Width, this.Height);
     context.save();
 
@@ -58,7 +59,7 @@ SegmentCanvas.prototype.Draw = function(canvas, elements)
             // Pick the on or off color based on the bitmask
             var color = (element & 1 << s)? this.FillLight : this.FillDark;
             var stroke = (element & 1 << s)? this.StrokeLight : this.StrokeDark;
-            context.lineWidth = this.LineWidth;
+            context.lineWidth = this.StrokeWidth;
             context.strokeStyle = stroke;
             context.fillStyle = color;
             context.beginPath();
@@ -68,12 +69,26 @@ SegmentCanvas.prototype.Draw = function(canvas, elements)
             }
             context.closePath();
             context.fill();
-            if (this.LineWidth > 0) context.stroke();
+            if (this.StrokeWidth > 0) {
+                context.stroke();
+            }
         }
         context.translate(elementWidth + this.Spacing, 0);
     }
     context.restore();
-}
+};
+
+// Set the number of elements in the display
+SegmentCanvas.prototype.SetCount = function(count) 
+{
+    this.ElementArray.SetCount(count);
+};
+
+// Get the number of elements in the display
+SegmentCanvas.prototype.GetCount = function() 
+{
+    return this.ElementArray.Elements.length;
+};
 
 // Calculates the width and height of a single display element
 // based on the number of elements and space available in the control
@@ -89,7 +104,7 @@ SegmentCanvas.prototype.CalcElementDimensions = function()
     w /= n;
 
     return { Width: w, Height: h };
-}
+};
 
 // Creates a new set of points flipped vertically
 SegmentCanvas.prototype.FlipVertical = function(points, height) 
@@ -101,7 +116,7 @@ SegmentCanvas.prototype.FlipVertical = function(points, height)
         flipped[i].y = height - points[i].y;
     }
     return flipped;
-}
+};
 
 // Creates a new set of points flipped horizontally
 SegmentCanvas.prototype.FlipHorizontal = function(points, width) 
@@ -113,4 +128,4 @@ SegmentCanvas.prototype.FlipHorizontal = function(points, width)
         flipped[i].y = points[i].y;
     }
     return flipped;
-}
+};

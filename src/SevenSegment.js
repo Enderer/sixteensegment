@@ -13,33 +13,31 @@ function SevenSegment(count, canvas, width, height, x, y) {
 SevenSegment.prototype = new SegmentCanvas();
 
 SevenSegment.prototype.CalcPoints = function() {
-    var d = this.CalcElementDimensions();
-    var w = d.Width;
-    var h = d.Height;
-    var sw = this.SegmentWidth * w;
-    var si = this.SegmentInterval * w;
-    var bw = this.BevelWidth * sw;
-    var br = bw / sw;
-    var ib = (this.SideBevelEnabled)? 1 : 0;
-    var sf = sw * .8;
-    var slope = h / w;
+    var d = this.CalcElementDimensions(),
+    w = d.Width, h = d.Height,
+    sw = this.SegmentWidth * w,
+    si = this.SegmentInterval * w,
+    bw = this.BevelWidth * sw,
+    br = bw / sw,
+    ib = (this.SideBevelEnabled)? 1 : 0,
+    sf = sw * .8,
+    slope = h / w;
 
-    var sqrt2 = Math.SQRT2;
-    var sqrt3 = Math.sqrt(3);
+    var sqrt2 = Math.SQRT2,
+        sqrt3 = Math.sqrt(3);
 
     var p = [];
     this.Points = p;
     for (var i = 0; i < 7; i++) {
         p[i] = [];
-        for (var s = 0; s < 6; s++) {
+        for (var s = 0; s < 6; s++) 
             p[i][s] = { x: 0, y: 0 };
-        }
     }
 
     p[0][0] = { x: sw * br * 2 + si / sqrt2,        y: 0            };
     p[0][1] = { x: w - sw * br * 2 - si / sqrt2,    y: 0            };
     p[0][2] = { x: w - sw * br - si / sqrt2,        y: sw * br      };
-    p[0][3] = { x: w - sw - si / sqrt2, 			y: sw           };
+    p[0][3] = { x: w - sw - si / sqrt2,             y: sw           };
     p[0][4] = { x: sw + si / sqrt2,                 y: sw           };
     p[0][5] = { x: sw * br + si / sqrt2,            y: sw * br      };
 
@@ -47,15 +45,15 @@ SevenSegment.prototype.CalcPoints = function() {
     p[1][1] = { x: w,               y: h / 2 - si * .5              };
     p[1][2] = { x: w - sw / 2,      y: h / 2 - si * .5              };
     p[1][3] = { x: w - sw,          y: h / 2 - sw / 2 - si * .5     };
-    p[1][4] = { x: w - sw, 			y: sw + si / sqrt2              };
+    p[1][4] = { x: w - sw,          y: sw + si / sqrt2              };
     p[1][5] = { x: w - sw * br,     y: sw * br + si / sqrt2         };
 
-    p[6][0] = { x: sw + si / 2 * sqrt3, 			y: h / 2 - sw / 2 };
-    p[6][1] = { x: w - sw - si / 2 * sqrt3, 		y: h / 2 - sw / 2 };
-    p[6][2] = { x: w - sw / 2 - si / 2 * sqrt3, 	y: h / 2 };
-    p[6][3] = { x: w - sw - si / 2 * sqrt3, 		y: h / 2 + sw / 2 };
-    p[6][4] = { x: sw + si / 2 * sqrt3, 			y: h / 2 + sw / 2 };
-    p[6][5] = { x: sw / 2 + si / 2 * sqrt3, 		y: h / 2 };
+    p[6][0] = { x: sw + si / 2 * sqrt3,             y: h / 2 - sw / 2 };
+    p[6][1] = { x: w - sw - si / 2 * sqrt3,         y: h / 2 - sw / 2 };
+    p[6][2] = { x: w - sw / 2 - si / 2 * sqrt3,     y: h / 2 };
+    p[6][3] = { x: w - sw - si / 2 * sqrt3,         y: h / 2 + sw / 2 };
+    p[6][4] = { x: sw + si / 2 * sqrt3,             y: h / 2 + sw / 2 };
+    p[6][5] = { x: sw / 2 + si / 2 * sqrt3,         y: h / 2 };
 
     p[2] = this.FlipVertical(p[1], h)
     p[3] = this.FlipVertical(p[0], h)
