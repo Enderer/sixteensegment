@@ -1,0 +1,105 @@
+body
+{
+    background-color: #101010;
+    color: #bbb;
+    font-size: medium;
+    font-family: Calibri, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#wrapper
+{
+    width: 60em;
+    margin: 2em auto;
+    vertical-align: top;
+}
+
+#output
+{
+    width: 60%;
+    float:left;
+}
+
+#container
+{
+    width: 100%;
+}
+
+canvas
+{
+    background: black;
+}
+
+fieldset
+{
+    -webkit-border-radius: .3em;
+    -moz-border-radius: .3em;
+    border-radius: .3em;
+    margin: 0 0 .6em 0;
+    padding: .5em 1em;
+    border: 2px solid #000;
+    background: #282828;
+}
+
+fieldset legend
+{
+    color: #777;
+    font-style: italic;
+}
+
+#controls
+{
+    width: 35%;
+    display: inline-block;
+    margin: 0;
+    float: right;
+}
+
+#controls input
+{
+    display: block;
+    float: left;
+    width: 9.5em;
+    margin: .1em 0;
+    padding: .05em .1em;
+    color: #444;
+    font-family: Calibri, sans-serif;
+}
+
+#controls input[type=color]
+{
+    width: 5em;
+}
+
+#controls input[type=checkbox]
+{
+    width: 1em;
+    margin-top: .4em;
+}
+
+#controls input[type=range] { }
+
+#controls input[type=number] 
+{
+    width: 4em;
+    padding: .1em .2em;
+    margin: .3em 0;
+}
+
+label
+{
+    float: left;
+    width: 9em;
+    display: block;
+    clear: left;
+    color: #ddd;
+}
+
+#code pre
+{
+    font-family: Consolas, "Courier New", monospace;
+    font-size: .8em;
+    color: #888;
+    white-space: pre
+}

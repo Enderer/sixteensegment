@@ -5,8 +5,8 @@
  * each element (this.ElementArray) and draws each segment shape (this.Points[][])
  * Allows you to configure the design by changing settings(bevel, color, etc...)
  ******************************************************************************/
-function SegmentCanvas()
-{
+function SegmentCanvas() {
+    "use strict";
     this.SegmentWidth = 0.16;           // Width of segments (% of Element Width)
     this.SegmentInterval = 0.05;        // Spacing between segments (% of Element Width)
     this.BevelWidth = 0.06;             // Size of corner bevel (% of Element Width)
@@ -17,9 +17,9 @@ function SegmentCanvas()
     this.StrokeDark = "#440044";        // Color of an off segment outline
     this.StrokeWidth = 0;               // Width of segment outline
     this.Padding = 10;                  // Padding around the display
-    this.Spacing = 5;                   // Spacing between elements
+    this.Spacing = 10;                  // Spacing between elements
     this.X = 0;                         // Starting position on the canvas
-    this.Y = 0;                         
+    this.Y = 0;
     this.Width = 200;                   // Default size of the display
     this.Height = 100;
     this.ElementArray = new ElementArray(1);
@@ -27,8 +27,8 @@ function SegmentCanvas()
 
 // Sets the display output to the given text, recalculates 
 // the segment points and draws the segment to the canvas
-SegmentCanvas.prototype.DispayText = function(value)
-{
+SegmentCanvas.prototype.DispayText = function(value) {
+    "use strict";
     // Recalculate points in case any settings changed
     this.CalcPoints();
     // Set the display patterns and draw the canvas
@@ -37,41 +37,39 @@ SegmentCanvas.prototype.DispayText = function(value)
 };
 
 // Draws the segment display to a canvas
-SegmentCanvas.prototype.Draw = function(canvas, elements) 
-{
+SegmentCanvas.prototype.Draw = function(canvas, elements) {
+    "use strict";
     // Get the context and clear the area
     var context = canvas.getContext('2d');
     context.clearRect(this.X, this.Y, this.Width, this.Height);
     context.save();
 
     // Calculate the width and spacing of each element
-    var n = elements.length;
-    var w = this.Width, h = this.Height;
     var elementWidth = this.CalcElementDimensions().Width;
+
     // Offset to adjust for starting point and padding
     context.translate(this.X, this.Y);
     context.translate(this.Padding, this.Padding);
 
     // Draw each segment of each element
-    for (var i = 0; i < elements.length; i++) {               
+    for (var i = 0; i < elements.length; i++) {
         var element = elements[i];
         for (var s = 0; s < this.Points.length; s++) {
             // Pick the on or off color based on the bitmask
-            var color = (element & 1 << s)? this.FillLight : this.FillDark;
-            var stroke = (element & 1 << s)? this.StrokeLight : this.StrokeDark;
+            var color = (element & 1 << s) ? this.FillLight : this.FillDark;
+            var stroke = (element & 1 << s) ? this.StrokeLight : this.StrokeDark;
             context.lineWidth = this.StrokeWidth;
             context.strokeStyle = stroke;
             context.fillStyle = color;
             context.beginPath();
             context.moveTo(this.Points[s][0].x, this.Points[s][0].y);
-            for(var p = 1; p< this.Points[s].length;p++){
+            // Create the segment path
+            for(var p = 1; p < this.Points[s].length; p++) {
                 context.lineTo(this.Points[s][p].x, this.Points[s][p].y);
             }
             context.closePath();
             context.fill();
-            if (this.StrokeWidth > 0) {
-                context.stroke();
-            }
+            if (this.StrokeWidth > 0) { context.stroke(); }
         }
         context.translate(elementWidth + this.Spacing, 0);
     }
@@ -79,25 +77,25 @@ SegmentCanvas.prototype.Draw = function(canvas, elements)
 };
 
 // Set the number of elements in the display
-SegmentCanvas.prototype.SetCount = function(count) 
-{
+SegmentCanvas.prototype.SetCount = function(count) {
+    "use strict";
     this.ElementArray.SetCount(count);
 };
 
 // Get the number of elements in the display
-SegmentCanvas.prototype.GetCount = function() 
-{
+SegmentCanvas.prototype.GetCount = function() {
+    "use strict";
     return this.ElementArray.Elements.length;
 };
 
 // Calculates the width and height of a single display element
 // based on the number of elements and space available in the control
-SegmentCanvas.prototype.CalcElementDimensions = function() 
-{
+SegmentCanvas.prototype.CalcElementDimensions = function() {
+    "use strict";
     var n = this.ElementArray.Elements.length;
     var h = this.Height;
     h -= this.Padding * 2;
-    
+
     var w = this.Width;
     w -= this.Spacing * (n - 1);
     w -= this.Padding * 2;
@@ -107,11 +105,11 @@ SegmentCanvas.prototype.CalcElementDimensions = function()
 };
 
 // Creates a new set of points flipped vertically
-SegmentCanvas.prototype.FlipVertical = function(points, height) 
-{
-    var flipped = new Array();
+SegmentCanvas.prototype.FlipVertical = function(points, height) {
+    "use strict";
+    var flipped = [];
     for(var i=0;i<points.length;i++) {
-        flipped[i] = new Object();
+        flipped[i] = {};
         flipped[i].x = points[i].x;
         flipped[i].y = height - points[i].y;
     }
@@ -119,11 +117,11 @@ SegmentCanvas.prototype.FlipVertical = function(points, height)
 };
 
 // Creates a new set of points flipped horizontally
-SegmentCanvas.prototype.FlipHorizontal = function(points, width) 
-{
-    var flipped = new Array();
+SegmentCanvas.prototype.FlipHorizontal = function(points, width) {
+    "use strict";
+    var flipped = [];
     for(var i=0;i<points.length;i++) {
-        flipped[i] = new Object();
+        flipped[i] = {};
         flipped[i].x = width - points[i].x;
         flipped[i].y = points[i].y;
     }

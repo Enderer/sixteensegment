@@ -65,8 +65,8 @@ canvas.width = 410;
 canvas.height = 100;
 var segmentA = new SixteenSegment(canvas, 4, 200, 100, 0, 0);
 var segmentB = new SixteenSegment(canvas, 4, 200, 100, 210, 0);
-segmentA.DisplayText(“Hello”);
-segmentA.DisplayText(“World”); 
+segmentA.DisplayText("Hello");
+segmentA.DisplayText("World");
 ```
 
 Customizing the display

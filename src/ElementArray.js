@@ -10,7 +10,7 @@ function ElementArray(count) {
 }
 
 // Default bitmask for undefined patterns
-ElementArray.prototype.NullMask = 0;
+ElementArray.prototype.NullMask = 0x10;
 
 // Sets the number of elements in the display
 ElementArray.prototype.SetCount = function(count) {
