@@ -13,6 +13,7 @@ java -jar compiler.jar ^
 --js=../src/ElementArray.js ^
 --js=../src/SegmentCanvas.js ^
 --js=../src/SixteenSegment.js ^
+--js=../src/SevenSegment.js ^
 --warning_level verbose
 
 echo Compile complete!

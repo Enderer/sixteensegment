@@ -6,29 +6,32 @@ License
 -------
 Sixteen Segment Display is available under the [MIT license] (http://opensource.org/licenses/MIT).
 
-Using the Code
+Using the code
 -------
 
-To add a sixteen segment display to your page create a new SixteenSegment object and pass the Canvas and number of display elements as parameters to the constructor. 
+The first step is to downloaded the code and include the script in your webpage. To add a sixteen segment display to your page create a new `SixteenSegment` object and pass the Canvas and number of display elements as parameters to the constructor. The canvas parameter is the only required argument. There are additional parameters you can pass to customize the display but they all have default values.
 
-```javascript
-var segment16 = new SixteenSegment(canvas, 11);
-segment16.DisplayText("Hello World");
+```xml
+&lt;canvas id='c' width='600' height='250'&gt;Not supported&lt;/canvas&gt;
+&lt;script src="segment.min.js"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+    var canvas = document.getElementById('c');
+    var segment16 = new SixteenSegment(canvas, 6);
+    segment16.DisplayText('Hello World');
+ 
+    // This works too
+    var segment16 = new SixteenSegment();
+    segment16.Canvas = canvas;
+    segment16.SetCount(6);
+    segment16.DisplayText('Hello World');
+&lt;/script&gt;
 ```
 
-The canvas property is the only one you are required to set for the display to work.  All other properties have a default value. Settings can be passed to the constructor or set as properties.
-
-```javascript
-// This works too
-var segment16 = new SixteenSegment();
-segment16.Canvas = canvas;
-segment16.SetCount(count);
-segment16.DisplayText("Hello World");
-```
-
-Configuring the display properties
+Display Size
 -------
-By default the display will set its width and height equal to that of the canvas.  This is convenient because the display automatically fills the control area and you can control the dimensions of the element in HTML and CSS.  However if you want to explicitly set the dimensions of the display you can set these properties manually.
+
+By default the display will set its width and height equal to that of the canvas. This is convenient because the display automatically fills the canvas area and you can control the dimensions of the element in HTML and CSS. If you want to explicitly set the dimensions of the display you can set these properties manually.
 
 ```javascript
 // Draws a sixteen segment display 200px wide and 100px tall
@@ -46,16 +49,16 @@ var segment16 = new SixteenSegment(canvas, 4, 200);
 var segment16 = new SixteenSegment(canvas, 4, null, 200);
 ```
 
-Additionally you can set the position of the display on the canvas by adding x and y coordinates.  These coordinates are relative to the top right corner of the canvas and default to (0,0).
+Additionally you can set the position of the display on the canvas by adding x and y coordinates. These coordinates are relative to the top right corner of the canvas and default to (0,0).
 
 ```javascript
-// Draws a sixteen segment display starting at position (50, 400);
-var segment16 = new SixteenSegment(canvas, 4, 200, 100, 50, 400);
-
+// Draws a sixteen segment display starting at position (100, 50);
+var segment16 = new SixteenSegment(canvas, 4, 200, 100, 100, 50);
+ 
 // This works too
 var segment16 = new SixteenSegment(canvas, 4, 200, 100);
-segment16.X = 50;
-segment16.Y = 400;
+segment16.X = 100;
+segment16.Y = 50;
 ```
 
 Using these settings multiple displays can share the same canvas
@@ -65,67 +68,83 @@ canvas.width = 410;
 canvas.height = 100;
 var segmentA = new SixteenSegment(canvas, 4, 200, 100, 0, 0);
 var segmentB = new SixteenSegment(canvas, 4, 200, 100, 210, 0);
-segmentA.DisplayText("Hello");
-segmentA.DisplayText("World");
+segmentA.DisplayText('Hello');
+segmentB.DisplayText('World');
 ```
 
 Customizing the display
 -------
-The style of the segments can be extensively customized by modifying properties that define how the segments are rendered.  The demo page lets you experiment with different settings and can be downloaded in the source files attached to this article or you can check out the live example.
+
+The display defaults to a standard looking sixteen segment display which I think looks pretty sharp.
+
+If this meets your needs then you are all set. However if you want a display that looks a little different you have the ability to customize the look through several properties. The demo page lets you experiment with different settings to see how they affect rendering of the display.
 
 ```javascript
-this.SegmentWidth = .16;            // Width of segments (% of Element Width)
-this.SegmentInterval = .05;         // Spacing between segments (% of Element Width)
-this.BevelWidth = .06;              // Size of corner bevel (% of Element Width)
-this.SideBevelEnabled = false;      // Determines if the sides should be beveled
-this.FillLight = "#86fd06";         // Color of an on segment
-this.FillDark = "#004400";          // Color of an off segment
-this.StrokeLight = "#007700";       // Color of an on segment outline
-this.StrokeDark = "#440044";        // Color of an off segment outline
-this.LineWidth = 0;                 // Width of segment outline
-this.Padding = 10;                  // Padding around the display
-this.Spacing = 5;                   // Spacing between elements
+var segment = new SixteenSegment(canvas, 6);
+segment.SegmentWidth = 0.16;          // Width of segments (% of Element Width)
+segment.SegmentInterval = 0.05;       // Spacing between segments (% of Element Width)
+segment.BevelWidth = .06;             // Size of corner bevel (% of Element Width)
+segment.SideBevelEnabled = false;     // Determines if the sides should be beveled
+segment.FillLight = '#86fd06'         // Color of an on segment
+segment.FillDark = '#004400'          // Color of an off segment
+segment.StrokeLight = '#007700'       // Color of an on segment outline
+segment.StrokeDark = '#440044'        // Color of an off segment outline
+segment.LineWidth = 0;                // Width of segment outline
+segment.Padding = 10;                 // Padding around the display
+segment.Spacing = 5;                  // Spacing between elements
+segment.X = 0;                        // Starting position on the canvas
+segment.Y = 0;
+segment.Width = 200;                  // Size of the display
+segment.Height = 100;
 ```
 
 Custom Display Patterns
 -------
-Characters are mapped to display patterns through the CharacterMasks property.  This property is a lookup object which holds display patterns indexed by character.  The display pattern describes which segments should be turned on.  This information is encoded in a 16 bit number as a bitmask with a bit for each segment.  A 1 indicates that the segment should be turned on and a 0 indicates it should be turned off. 
 
-The CharacterMasks object contains display patterns for all alphanumeric characters.  You can add additional characters or create your own custom display patterns by adding new values to the lookup.  The value of the bitmask should be a 16 bit number with a bit set to 1 for each segment that should be turned on.  
+Characters are mapped to display patterns through the `CharacterMasks` property. This property is a lookup object which holds display patterns indexed by character. The display pattern describes which segments should be turned on. This information is encoded in a 16 bit number as a bitmask with a bit for each segment. A 1 indicates that the segment should be turned on and a 0 indicates it should be turned off.
 
-To display the character 'A' you need to turn on 8 of the segments.
+The `CharacterMasks` object contains display patterns for all alphanumeric characters. You can add additional characters or create your own custom display patterns by adding new values to the lookup. The value of the bitmask should be a 16 bit number with a bit set to 1 for each segment that should be turned on.
+
+To display the character 'A' you need to turn on 8 segments.
 
 ```javascript
 A: 1111001111000000
-
+ 
 // Bitmask can be represented in several ways
 var charMasks = SixteenSegment.prototype.CharacterMasks;
-charMasks['A'] = a1 | a2 | b | c | g1 | g2 | e | f |;    // Segment masks
-charMasks['A'] = parseInt('1111001111000000', 2);        // Binary
-charMasks['A'] = 0x3CF;                                  // Hex
-charMasks['A'] = 975;                                    // Decimal
+charMasks['A'] = a1 | a2 | b | c | g1 | g2 | e | f |;       // Segment masks
+charMasks['A'] = parseInt('1111001111000000', 2);	    // Binary
+charMasks['A'] = 0x3CF;					    // Hex
+charMasks['A'] = 975;					    // Decimal 
 ```
-The preferred way to set a display pattern is to  use the segment bitmasks. A variable for each segment holds the bit that turns on its segment. When multiple segment masks are binary or'ed together you get a value the represents the desired pattern.  This makes reading and creating new patterns very intuitive.
+
+The preferred way to set a display pattern is to use the segment bitmasks. A variable for each segment holds the bit that turns on its segment. When multiple segment masks are binary or'ed together you get a value the represents the desired pattern. This makes reading and creating new patterns very intuitive.
 
 ```javascript
 // Bitmasks for individual segments
-var a1 = 1 << 0,    a2 = 1 << 1,    b = 1 << 2,    c = 1 << 3,
-    d1 = 1 << 4,    d2 = 1 << 5,    e = 1 << 6,    f = 1 << 7,
-    g1 = 1 << 8,    g2 = 1 << 9,    h = 1 << 10,   i = 1 << 11,
-    j  = 1 << 12,   k  = 1 << 13,   l = 1 << 14,   m = 1 << 15;
-
+var a1 = 1 &lt;&lt; 0,    a2 = 1 &lt;&lt; 1,    b = 1 &lt;&lt; 2,    c = 1 &lt;&lt; 3,
+    d1 = 1 &lt;&lt; 4,    d2 = 1 &lt;&lt; 5,    e = 1 &lt;&lt; 6,    f = 1 &lt;&lt; 7,
+    g1 = 1 &lt;&lt; 8,    g2 = 1 &lt;&lt; 9,    h = 1 &lt;&lt; 10,   i = 1 &lt;&lt; 11,	
+    j  = 1 &lt;&lt; 12,   k  = 1 &lt;&lt; 13,   l = 1 &lt;&lt; 14,   m = 1 &lt;&lt; 15;
+ 
 // Turn on the g1 and g2 segments
-charMasks['-'] = g1 | g2;    // 0000001100000000
+charMasks['-'] = g1 | g2;      // 0000001100000000
 ```
 
 Extending the Display
 -------
-The sixteen segment display is made up of three function objects. SixteenSegment, SegmentCanvas, and SegmentArray.
 
-`SegmentArray` is responsible for setting the display patterns and storing the value of multiple elements.  It is independent from rendering the control or drawing anything to a canvas.  It just manages setting the bit pattern for each element given a text input.
+The sixteen segment display is made up of three function objects. `SixteenSegment`, `SegmentCanvas`, and `SegmentArray`.
 
-`SegementCanvas` provides generic functionality for drawing the display to the canvas.  This includes properties for customizing the shape and position of the display.  It requires that an inheriting object implement the details that define the shape and number of segments. 
+`SegmentArray` is responsible for setting the display patterns and storing the value of multiple elements. It is independent from rendering the control or drawing anything to a canvas. This object just manages setting the bit pattern for each element given a text input.
 
-`SixteenSegment` extends the SegmentCanvas object with functionality specific to a sixteen segment display.  This means it has to set two properties.  The Points property defines the segment geometery for a sixteen segment layout.  The CharacterMasks property provides a lookup that maps characters to their desired sixteen segment pattern.
+`SegementCanvas` provides generic functionality for drawing the display to the canvas. This includes properties for customizing the shape and position of the display. It requires that an inheriting object implement the details that define the shape and number of segments.
 
-New display types can be created in the same way by extending the SegmentCanvas object and implementing the Points[][] array and CharacterMasks lookup.  For instance it’s easy to create seven segment display leveraging the existing code.
+`SixteenSegment` extends the `SegmentCanvas` object with functionality specific to a sixteen segment display. This means it has to set two properties. The Points property defines the segment geometery for a sixteen segment layout. The `CharacterMasks` property provides a lookup that maps characters to their desired sixteen segment pattern.
+
+This means that new display types can be created in the same way by extending the `SegmentCanvas` object and implementing the `Points[][]` array and `CharacterMasks` lookup. For instance it’s pretty easy to add a seven segment display. The `SevenSegment` object contains only the code specific to defining its 'seven-ness'. All other code is reused.
+
+```javascript
+var seven = new SevenSegment(canvas, 6);
+seven.DisplayText('Hello World');
+```
