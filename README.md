@@ -12,10 +12,10 @@ Using the code
 The first step is to downloaded the code and include the script in your webpage. To add a sixteen segment display to your page create a new `SixteenSegment` object and pass the Canvas and number of display elements as parameters to the constructor. The canvas parameter is the only required argument. There are additional parameters you can pass to customize the display but they all have default values.
 
 ```xml
-&lt;canvas id='c' width='600' height='250'&gt;Not supported&lt;/canvas&gt;
-&lt;script src="segment.min.js"&gt;&lt;/script&gt;
+<canvas id='c' width='600' height='250'>Not supported</canvas>
+<script src="segment.min.js"></script>
 
-&lt;script&gt;
+<script>
     var canvas = document.getElementById('c');
     var segment16 = new SixteenSegment(canvas, 6);
     segment16.DisplayText('Hello World');
@@ -25,7 +25,7 @@ The first step is to downloaded the code and include the script in your webpage.
     segment16.Canvas = canvas;
     segment16.SetCount(6);
     segment16.DisplayText('Hello World');
-&lt;/script&gt;
+</script>
 ```
 
 Display Size
@@ -122,10 +122,10 @@ The preferred way to set a display pattern is to use the segment bitmasks. A var
 
 ```javascript
 // Bitmasks for individual segments
-var a1 = 1 &lt;&lt; 0,    a2 = 1 &lt;&lt; 1,    b = 1 &lt;&lt; 2,    c = 1 &lt;&lt; 3,
-    d1 = 1 &lt;&lt; 4,    d2 = 1 &lt;&lt; 5,    e = 1 &lt;&lt; 6,    f = 1 &lt;&lt; 7,
-    g1 = 1 &lt;&lt; 8,    g2 = 1 &lt;&lt; 9,    h = 1 &lt;&lt; 10,   i = 1 &lt;&lt; 11,	
-    j  = 1 &lt;&lt; 12,   k  = 1 &lt;&lt; 13,   l = 1 &lt;&lt; 14,   m = 1 &lt;&lt; 15;
+var a1 = 1 << 0,    a2 = 1 << 1,    b = 1 << 2,    c = 1 << 3,
+    d1 = 1 << 4,    d2 = 1 << 5,    e = 1 << 6,    f = 1 << 7,
+    g1 = 1 << 8,    g2 = 1 << 9,    h = 1 << 10,   i = 1 << 11,	
+    j  = 1 << 12,   k  = 1 << 13,   l = 1 << 14,   m = 1 << 15;
  
 // Turn on the g1 and g2 segments
 charMasks['-'] = g1 | g2;      // 0000001100000000
