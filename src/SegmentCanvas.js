@@ -127,3 +127,57 @@ SegmentCanvas.prototype.FlipHorizontal = function(points, width) {
     }
     return flipped;
 };
+
+// Creates a lighter or darker version of  the color
+SegmentCanvas.GetRGB = function(hex) {
+    var val = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    var bigint = parseInt(hex, 16);
+    var r = (bigint >> 16) & 255;
+    var g = (bigint >> 8) & 255;
+    var b = bigint & 255;
+    return { R : r, G : g, B : b };
+}
+
+SegmentCanvas.Lerp = function(start, end, amount) {
+    var difference = end - start;
+    var adjusted = difference * amount;
+    return start + adjusted;
+}
+
+SegmentCanvas.LerpColor = function(colour, colour1, amount) {
+    // start colours as lerp-able floats
+    var rgb = hexToRgb(colour);
+    var rgb1 = hexToRgb(colour1);
+    var sr = rgb.R, sg = rgb.G, sb = rgb.B;
+
+    // end colours as lerp-able floats
+    var er = rgb1.R, eg = rgb1.G, eb = rgb1.B;
+
+    // lerp the colours to get the difference
+    var  r = SegmentCanvas.Lerp(sr, er, amount),
+         g = SegmentCanvas.Lerp(sg, eg, amount),
+         b = SegmentCanvas.Lerp(sb, eb, amount);
+
+    // return the new colour
+    return rgbToHex(r, g, b);
+}
+
+function hexToRgb(hex) {
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+        return r + r + g + g + b + b;
+    });
+
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        R: parseInt(result[1], 16),
+        G: parseInt(result[2], 16),
+        B: parseInt(result[3], 16)
+    } : null;
+}
+
+
+function rgbToHex(r, g, b) {
+    return "#" + parseInt((1 << 24) + (r << 16) + (g << 8) + b, 10).toString(16).slice(1);
+}

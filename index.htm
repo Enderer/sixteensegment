@@ -8,6 +8,22 @@
     <script src="jquery-1.9.1.min.js"></script>
     <script src="segment.min.js"></script>
     <script>
+        var settings = {
+            X : 0,
+            Y : 0,
+            SegmentWidth : 0.12,
+            BevelWidth : 0.49,
+            SegmentInterval : 0.025,
+            SideBevelEnabled : false,
+            Padding : 15,
+            Spacing : 10,
+            FillLight : '#9eff0d',
+            FillDark : '#0c1401',
+            StrokeLight : '#ff0000',
+            StrokeDark : '#550000',
+            StrokeWidth : 0
+        };
+
         window.onload = function () {
             "use strict";
             // Set the canvas size to fill its container
@@ -17,63 +33,76 @@
             canvas.height = container.clientHeight;
 
             // Create a new sixteen segment display
-            var segment16 = new SixteenSegment(5, canvas);
-            
-            // Width and height defaults to the canvas size
-            $("#rangeWidth").val(canvas.width);
-            $("#rangeHeight").val(canvas.height);
+            var segment = new SixteenSegment(1, canvas);
 
             // When the inputs change update the display
-            $("input").keyup(function() { update(segment16); });
-            $("input").change(function() { update(segment16); });
-            update(segment16);
+            $("input").keyup(function() { update(segment); });
+            $("input").change(function() { update(segment); });
+
+            // Initialize the segment settings and input controls
+            settings.Width = canvas.width;
+            settings.Height = canvas.height;
+            for (var s in settings){ 
+                segment[s] = settings[s];
+            }
+            init(segment);
+            update(segment);
         }
 
         // Update the Segment Display settings
-        function update(segment16) {
+        function update(segment) {
             "use strict";
             // Clear the canvas in case the display is resized
             var canvas = document.getElementById('c');
             canvas.width = canvas.width;
 
             // Set the display properties and update the display
-            segment16.Width = parseFloat($("#rangeWidth").val());
-            segment16.Height = parseFloat($("#rangeHeight").val());
-            segment16.X = parseFloat($("#rangeX").val());
-            segment16.Y = parseFloat($("#rangeY").val());
-            segment16.SetCount(parseInt($("#numberElements").val()));
-            segment16.SegmentWidth = parseFloat($("#rangeSegmentWidth").val());
-            segment16.BevelWidth = parseFloat($("#rangeBevel").val());
-            segment16.SegmentInterval = parseFloat($("#rangeInterval").val());
-            segment16.SideBevelEnabled = $("#checkBevel").is(':checked');
-            segment16.Padding = parseFloat($("#rangePadding").val());
-            segment16.Spacing = parseFloat($("#rangeSpacing").val());
-            segment16.FillLight = $("#colorLight").val();
-            segment16.FillDark = $("#colorDark").val();
-            segment16.StrokeLight = $("#strokeLight").val();
-            segment16.StrokeDark = $("#strokeDark").val();
-            segment16.StrokeWidth = parseFloat($("#rangeLine").val());
-            segment16.DispayText($("#textInput").val().toUpperCase());
+            segment.Width = parseFloat($("#rangeWidth").val());
+            segment.Height = parseFloat($("#rangeHeight").val());
+            segment.X = parseFloat($("#rangeX").val());
+            segment.Y = parseFloat($("#rangeY").val());
+            segment.SetCount(parseInt($("#numberElements").val()));
+            segment.SegmentWidth = parseFloat($("#rangeSegmentWidth").val());
+            segment.BevelWidth = parseFloat($("#rangeBevel").val());
+            segment.SegmentInterval = parseFloat($("#rangeInterval").val());
+            segment.SideBevelEnabled = $("#checkBevel").is(':checked');
+            segment.Padding = parseFloat($("#rangePadding").val());
+            segment.Spacing = parseFloat($("#rangeSpacing").val());
+            segment.FillLight = $("#colorLight").val();
+            //segment.FillDark = $("#colorDark").val();
+            segment.FillDark = SegmentCanvas.LerpColor(segment.FillLight, "#000000", .92);
+            segment.StrokeLight = $("#strokeLight").val();
+            segment.StrokeDark = $("#strokeDark").val();
+            segment.StrokeWidth = parseFloat($("#rangeLine").val());
+            segment.DispayText($("#textInput").val().toUpperCase());
             
-            // Output the diplay settings
-            var outString = "<pre>"
-            + "Width: " + segment16.Width
-            + " \nHeight: " + segment16.Height
-            + " \nX: " + segment16.X + " \nY: " + segment16.Y
-            + " \nGetCount(): " + segment16.GetCount()
-            + " \nSegmentWidth: " + segment16.SegmentWidth
-            + " \nBevelWidth: " + segment16.BevelWidth
-            + " \nSegmentInterval: " + segment16.SegmentInterval
-            + " \nSideBevelEnabled: " + segment16.SideBevelEnabled
-            + " \nPadding: " + segment16.Padding
-            + " \nSpacing: " + segment16.Spacing
-            + " \nFillLight: " + segment16.FillLight
-            + " \nFillDark: " + segment16.FillDark
-            + " \nStrokeLight: " + segment16.StrokeLight
-            + " \nStrokeDark: " + segment16.StrokeDark
-            + " \nStrokeWidth: " + segment16.StrokeWidth
-            + "</pre>";
-            $("#code").html(outString);
+            // Output the display settings
+            var outstring = [];
+            for(var s in settings){
+                var setting = segment[s];
+                var q = (typeof setting == 'string' || setting instanceof String)? "'" : "";
+                outstring.push(s + ' : ' + q + segment[s] + q); 
+            }
+            $("#code").html(outstring.join(",\n"));
+            $("#link").html("<a href='"+canvas.toDataURL()+"'>Image link</a>");
+        }
+
+        function init(segment){
+            $("#rangeWidth").val(segment.Width);
+            $("#rangeHeight").val(segment.Height);
+            $("#rangeX").val(segment.X);
+            $("#rangeY").val(segment.Y);
+            $("#rangeSegmentWidth").val(segment.SegmentWidth);
+            $("#rangeBevel").val(segment.BevelWidth);
+            $("#rangeInterval").val(segment.SegmentInterval);
+            $("#checkBevel").prop('checked', segment.SideBevelEnabled);
+            $("#rangePadding").val(segment.Padding);
+            $("#rangeSpacing").val(segment.Spacing);
+            $("#colorLight").val(segment.FillLight);
+            $("#colorDark").val(segment.FillDark);
+            $("#strokeLight").val(segment.StrokeLight);
+            $("#strokeDark").val(segment.StrokeDark);
+            $("#rangeLine").val(segment.StrokeWidth);
         }
     </script>
 </head>
@@ -81,7 +110,8 @@
 <div id="wrapper">
     <div id="output">
         <div id="container"><canvas id="c"></canvas></div>
-        <div id="code"></div>
+        <pre id="code"></pre>
+        <div id="link"></div>
     </div>
     <form id="controls">
     <fieldset>

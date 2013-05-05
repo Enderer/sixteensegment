@@ -23,12 +23,14 @@ body
 
 #container
 {
-    width: 100%;
+    font-size: 95px;
+    width: 6em;
+    height: 1.6em;
 }
 
 canvas
 {
-    background: black;
+    background-color: #000;
 }
 
 fieldset
@@ -96,10 +98,9 @@ label
     color: #ddd;
 }
 
-#code pre
+#code
 {
     font-family: Consolas, "Courier New", monospace;
     font-size: .8em;
     color: #888;
-    white-space: pre
 }

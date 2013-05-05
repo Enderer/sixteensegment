@@ -24,7 +24,6 @@ SixteenSegment.prototype = new SegmentCanvas();
 // Calculates the point positions for each segment & stores them in Points[][].
 // Ex. The first point for the second segment is stored at Points[1][0];
 // Segments are labeled a1, a2, b, c, d1, d2, e, f, g1, g2, h, i, j, k, l, m
-/** @expose */
 SixteenSegment.prototype.CalcPoints = function() {
     "use strict";
     var d = this.CalcElementDimensions(),
